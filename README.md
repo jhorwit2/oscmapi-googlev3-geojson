@@ -3,19 +3,13 @@ oscmapi-googlev3-geojson
 
 ## Open Source Common Map API GeoJson Parser
 
-This project is a clone from [Jason Sanford](https://github.com/JasonSanford/geojson-google-maps); however, this project now extends the geojson specification to conform to the Common Map API Specification.
+This project is a clone from [Jason Sanford](https://github.com/JasonSanford/geojson-google-maps); however, this project now extends the geojson specification to conform to the [Common Map API Specification v1.2](http://www.cmwapi.org/docs/Common_map_widget_API_v1.2.0.docx).
 
 The current code base also has been completely refactored with a prototype approach and complete documentation. 
 
 ### Dependencies
 
 [Underscore.js](http://underscorejs.org/) or [Lodash.js](http://lodash.com/)
-
-## GeoJSON to Google Maps
-
-### **Read This! **
-
-Google Maps now has [proper support for GeoJSON](https://developers.google.com/maps/documentation/javascript/examples/layer-data-simple), so you should probably use that instead.
 
 ### version 2.0
 
@@ -45,121 +39,64 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 <tr><td>GeometryCollection</td><td>Array of google.maps.[Point,Polyline,Polygon] (depends on geometry type)</td></tr>
 </table>
 
-#### GeoJSON Examples
-	// GeoJSON Point
-	{
-		"type": "Point",
-		"coordinates": [
-			-80.66252,
-			35.04267
-		]
-	}
-	
-	// GeoJSON LineString
-	{
-		"type": "LineString",
-		"coordinates": [
-			[-80.661983228058659, 35.042968081213758],
-			[-80.662076494242413, 35.042749414542243],
-			[-80.662196794397431, 35.042626481357232],
-			[-80.664238981504525, 35.041175532632963]
-		]
-	}
-	
-	// GeoJSON Polygon
-	{
-		"type": "Polygon",
-		"coordinates": [
-			[
-				[-80.662120612605904, 35.042875219905184],
-				[-80.662141716053014, 35.042832740965068],
-				[-80.662171938563816, 35.042789546962993],
-				[-80.662209174653029, 35.042750233165179],
-				[-80.662250709107454, 35.042716920859959],
-				[-80.662627586829899, 35.043072078075667],
-				[-80.662595574310288, 35.043162322407341],
-				[-80.662142312824884, 35.043015448098977],
-				[-80.662145396323511, 35.042970839922489],
-				[-80.662117972448982, 35.042908385949438],
-				[-80.662120612605904, 35.042875219905184]
-			]
-		]
-	}
-	
-	// GeoJSON Feature
-	{
-		"type": "Feature",
-		"id": 9876,
-		"geometry": {
-			"type": "Point",
-			"coordinates": [
-				-80.66252,
-				35.04267
-			]
-		},
-		"properties": {
-			"condition": "Satisfactory",
-			"has_garage": false,
-			"number_of_bedrooms": 3
-		}
-	}
-	
-	// GeoJSON FeatureCollection
-	{
-		"type": "FeatureCollection",
-		"features": [
-			{
-				"type": "Feature",
-				"id": 9876,
-				"geometry": {
-					"type": "Point",
-					"coordinates": [
-						-80.66252,
-						35.04267
-					]
-				},
-				"properties": {
-					"condition": "Satisfactory",
-					"has_garage": false,
-					"number_of_bedrooms": 3
-				}
-			},{
-				"type": "Feature",
-				"id": 9875,
-				"geometry": {
-					"type": "Point",
-					"coordinates": [
-						-80.66262,
-						35.04277
-					]
-				},
-				"properties": {
-					"condition": "Excellent",
-					"has_garage": true,
-					"number_of_bedrooms": 4
-				}
-			}
-		]
-	}
+========================
+## Common Map API Specification v1.2 additions
 
-#### Sample Google Maps Vector Options
-	// google.maps.Polyline
-	{
-		"strokeColor": "#FFFF00",
-		"strokeWeight": 7,
-		"strokeOpacity": 0.75
-	}
-	
-	// google.maps.Polygon
-	{
-		"strokeColor": "#FF7800",
-		"strokeOpacity": 1,
-		"strokeWeight": 2,
-		"fillColor": "#46461F",
-		"fillOpacity": 0.25
-	}
-	
-	// google.maps.Marker
-	{
-		"icon": "img/marker-house.png"
-	}
+### Important
+
+Currently, the only style feature implemented is the url for iconStyle. The other style features are on the list to be implemented in the near future though. 
+
+Any values added to the properties field will be included in the Google object generated via this library and can be accessed via:
+```javascript
+var googleObject = new GeoJSON(geojson);
+// Access properties
+console.log(googleObject.properties);
+```
+
+========================
+The Common Map Widget API specification extends the GeoJSON specification by adding the “style”, “name”, “id”, “description“, and “timePrimitive“ objects to the “Properties” object of the GeoJSON specification.  These extended objects ONLY apply to the GeoJSON Feature object.
+```javascript
+style: { 
+	lineStyle:  {
+		color: {
+			r: (required), g: (required), b: (required), a: (required)
+		} (required)
+	} (optional), 
+	polyStyle:  {
+		color: {
+			r: (required), g: (required), b: (required), a: (required)
+		} (required)
+	} (optional),
+	iconStyle: {
+		url: (required)
+	}(optional)
+} (optional),
+name: (optional), 
+id: (recommended), 
+description: (optional),
+timePrimitive: {
+	timeSpan: {
+		begin: (required),
+		end: (required)
+	} (optional),
+	timestamp: (optional)
+} (optional)
+```
+
+**color:**   	Object representing [CSS3 RGBA](http://www.w3.org/wiki/CSS3/Color/RGBA).  No value sent results in default settings on the map.
+
+   **r:**	Integer value between 0 and 255 for red.<br>
+   **g:**	Integer value between 0 and 255 for green.<br>
+   **b:**	Integer value between 0 and 255 for blue.<br>
+   **a:**	Number value between 0.0 (fully transparent) to 1.0 (fully opaque).<br>
+
+
+**iconStyle:**
+**url:*	URL to an image file that will be used for the icon for a point. If no URL is provided, result will be map’s default icon.
+
+**name:** name of the specific GeoJSON feature. Generally used when the GeoJSON parent object is a featureCollection or feature objects.
+
+**id:** a unique identifier for the feature object.If the id of the GeoJSON Feature.properties.id is omitted, and part of a FeatureCollection, selection may not work for these features as they cannot be uniquely identified. 
+
+**description:** user supplied content that appears in a pop-up balloon associated with the feature.  Can be plain text, or HTML formatted.
+
