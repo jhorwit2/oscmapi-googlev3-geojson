@@ -223,6 +223,14 @@ var GeoJSON = (function () {
         return lines;
     }
 
+    /**
+     * The algorithm below determines whether the points go clockwise
+     * or counterclockwise. It's based off the shoelace formula and the
+     * code was taken from here: http://stackoverflow.com/a/14506549
+     *
+     * @param  {Array<google.maps.LatLng>} coordinates array of latlng google objects
+     * @return {Boolean}    true if points go clockwise
+     */
     GeoJSON.prototype._clockwise = function (coordinates) {
         var area = 0, j;
         for (var i = 0; i < coordinates.length; i++) {
