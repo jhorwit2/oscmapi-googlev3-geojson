@@ -1,4 +1,8 @@
-// Dependency on jQuery and underscore/lodash
+/*
+Copyright (c) 2012, Jason Sanford
+All rights reserved.
+*/
+
 /*global google, _, GeoJSON */
 var GeoJSON = (function () {
 
