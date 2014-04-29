@@ -61,9 +61,6 @@ var GeoJSON = (function () {
                 return that.createFeature(json, options, properties);
             }
             break;
-        default:
-            console.log("Default error: the json entered is not supported");
-            console.log(json, options, properties);
         }
         // If there was an error then return null failing silenty
         return null;
