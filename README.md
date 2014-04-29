@@ -40,9 +40,9 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 </table>
 
 ========================
-### Common Map API Specification v1.2 additions
+## Common Map API Specification v1.2 additions
 
-## Important
+### Important
 
 Currently, the only style feature implemented is the url for iconStyle. The other style features are on the list to be implemented in the near future though. 
 
@@ -53,6 +53,7 @@ var googleObject = new GeoJSON(geojson);
 console.log(googleObject.properties);
 ```
 
+========================
 The Common Map Widget API specification extends the GeoJSON specification by adding the “style”, “name”, “id”, “description“, and “timePrimitive“ objects to the “Properties” object of the GeoJSON specification.  These extended objects ONLY apply to the GeoJSON Feature object.
 ```javascript
 style: { 
