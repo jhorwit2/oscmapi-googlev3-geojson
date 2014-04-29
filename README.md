@@ -114,7 +114,7 @@ To help assist with various tasks a few fields have been added to the properties
 </table>
 
 **Bounds:**
-In order to increase efficiency for determine the bounds of a feature it was determined that calculating and caching the result during object creation was the most efficient solution. This now enables anyone to quickly determine the bounds for any given feature without having to calculate it on the fly. 
+In order to increase the efficiency for determining the bounds of a feature, it was determined that calculating and caching the result during object creation was the most efficient solution. This now enables anyone to quickly determine the bounds for any given feature without having to calculate it on the fly. 
 
 **Type:**
-This value represents the geojson type since Google V3 handles objects differently, as noted by the previous data mapping GeoJson to Google V3 objects. This will allow developers to easily determine the current object's original type and account for it accordingly. 
+This value represents the geojson type since Google V3 handles objects differently, as noted by the previous table mapping GeoJson to Google V3 objects. This will allow developers to easily determine the current objects original geojson type and account for it accordingly, if needed.
