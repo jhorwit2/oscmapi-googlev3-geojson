@@ -100,3 +100,21 @@ timePrimitive: {
 
 **description:** user supplied content that appears in a pop-up balloon associated with the feature.  Can be plain text, or HTML formatted.
 
+=========
+
+#### Additions to the properties section
+
+To help assist with various tasks a few fields have been added to the properties section of the google object returned from the geojson data.
+
+
+<table>
+<tr><th>key</th><th>value</th></tr>
+<tr><td>bounds</td><td>google.maps.LatLngBounds</td></tr>
+<tr><td>type</td><td>GeoJson Type</td></tr>
+</table>
+
+**Bounds:**
+In order to increase efficiency for determine the bounds of a feature it was determined that calculating and caching the result during object creation was the most efficient solution. This now enables anyone to quickly determine the bounds for any given feature without having to calculate it on the fly. 
+
+**Type:**
+This value represents the geojson type since Google V3 handles objects differently, as noted by the previous data mapping GeoJson to Google V3 objects. This will allow developers to easily determine the current object's original type and account for it accordingly. 
