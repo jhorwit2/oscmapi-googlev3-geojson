@@ -5,7 +5,7 @@ oscmapi-googlev3-geojson
 
 This project is a clone from [Jason Sanford](https://github.com/JasonSanford/geojson-google-maps); however, this project now extends the geojson specification to conform to the [Common Map API Specification v1.2](http://www.cmwapi.org/docs/Common_map_widget_API_v1.2.0.docx).
 
-The current code base also has been completely refactored with a prototype approach and complete documentation. 
+The current code base also has been completely refactored with a prototype approach and complete documentation.
 
 ### Dependencies
 
@@ -21,7 +21,7 @@ GeoJSON is used to create Google Maps API v3 vectors (Marker, Polyline, Polygon)
 #### Constructor Parameters
 @param {Object} geojson
 A valid GeoJSON object. One of Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, Feature, GeometryCollection, FeatureCollection. See the [official GeoJSON spec](http://geojson.org) for more details. GeoJSON examples below.
-		
+
 @param? {Object} options - Optional
 Options for the specific type of Google Maps vector (Marker, Polyline, Polygon). If none specified, boring black vectors and red markers will be created - Optional. Samples Below.
 
@@ -44,7 +44,7 @@ Options for the specific type of Google Maps vector (Marker, Polyline, Polygon).
 
 ### Important
 
-Currently, the only style feature implemented is the url for iconStyle. The other style features are on the list to be implemented in the near future though. 
+Currently, the only style feature implemented is the url for iconStyle. The other style features are on the list to be implemented in the near future though.
 
 Any values added to the properties field will be included in the Google object generated via this library and can be accessed via:
 ```javascript
@@ -56,12 +56,12 @@ console.log(googleObject.properties);
 ========================
 The Common Map Widget API specification extends the GeoJSON specification by adding the “style”, “name”, “id”, “description“, and “timePrimitive“ objects to the “Properties” object of the GeoJSON specification.  These extended objects ONLY apply to the GeoJSON Feature object.
 ```javascript
-style: { 
+style: {
 	lineStyle:  {
 		color: {
 			r: (required), g: (required), b: (required), a: (required)
 		} (required)
-	} (optional), 
+	} (optional),
 	polyStyle:  {
 		color: {
 			r: (required), g: (required), b: (required), a: (required)
@@ -71,8 +71,8 @@ style: {
 		url: (required)
 	}(optional)
 } (optional),
-name: (optional), 
-id: (recommended), 
+name: (optional),
+id: (recommended),
 description: (optional),
 timePrimitive: {
 	timeSpan: {
@@ -96,7 +96,7 @@ timePrimitive: {
 
 **name:** name of the specific GeoJSON feature. Generally used when the GeoJSON parent object is a featureCollection or feature objects.
 
-**id:** a unique identifier for the feature object.If the id of the GeoJSON Feature.properties.id is omitted, and part of a FeatureCollection, selection may not work for these features as they cannot be uniquely identified. 
+**id:** a unique identifier for the feature object.If the id of the GeoJSON Feature.properties.id is omitted, and part of a FeatureCollection, selection may not work for these features as they cannot be uniquely identified.
 
 **description:** user supplied content that appears in a pop-up balloon associated with the feature.  Can be plain text, or HTML formatted.
 
@@ -114,7 +114,7 @@ To help assist with various tasks a few fields have been added to the properties
 </table>
 
 **Bounds:**
-In order to increase the efficiency for determining the bounds of a feature, it was determined that calculating and caching the result during object creation was the most efficient solution. This now enables anyone to quickly determine the bounds for any given feature without having to calculate it on the fly. 
+In order to increase the efficiency for determining the bounds of a feature, it was determined that calculating and caching the result during object creation was the most efficient solution. This now enables anyone to quickly determine the bounds for any given feature without having to calculate it on the fly.
 
 **Type:**
 This value represents the geojson type since Google V3 handles objects differently, as noted by the previous table mapping GeoJson to Google V3 objects. This will allow developers to easily determine the current objects original geojson type and account for it accordingly, if needed.

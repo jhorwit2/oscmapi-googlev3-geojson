@@ -1,4 +1,5 @@
 /*
+Copyright (c) 2014, Joshua Horwitz
 Copyright (c) 2012, Jason Sanford
 All rights reserved.
 */
