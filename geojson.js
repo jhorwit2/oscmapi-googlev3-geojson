@@ -3,7 +3,7 @@ Copyright (c) 2012, Jason Sanford
 All rights reserved.
 */
 
-/*global google, _, GeoJSON */
+/*global google, _ */
 var GeoJSON = (function () {
 
     /**
@@ -16,7 +16,7 @@ var GeoJSON = (function () {
      */
     var GeoJSON = function (json, options) {
         return this.parseJson(json, options);
-    }
+    };
 
     /**
      * This method is tasked with handling the geojson and building up
@@ -68,7 +68,7 @@ var GeoJSON = (function () {
         }
         // If there was an error then return null failing silenty
         return null;
-    }
+    };
 
     /**
      * Create the google maps object from the passed in geojson object.
@@ -95,7 +95,7 @@ var GeoJSON = (function () {
             case "GeometryCollection":
                 return this.parseJson(json, options, properties);
         }
-    }
+    };
 
     /**
      * Createa a google maps marker object.
@@ -127,7 +127,7 @@ var GeoJSON = (function () {
 
         // Store the properties for each object and set the type.
         marker.properties = properties;
-        marker.properties.type = "Point";
+        marker.properties.type = properties.type ? properties.type : "Point";
 
         // Cache the bounds object for easy/efficient re-use by the map.
         var bounds = new google.maps.LatLngBounds();
@@ -135,7 +135,7 @@ var GeoJSON = (function () {
         marker.properties.bounds = bounds;
 
         return marker;
-    }
+    };
 
     /**
      * Create a group of google map marker objects from the multipoint object
@@ -148,9 +148,6 @@ var GeoJSON = (function () {
      */
     GeoJSON.prototype.multiPoint = function (json, options, properties) {
         var markers = [];
-        options = _(options).clone();
-        properties = _(properties).clone();
-
         var that = this;
         // Interate through each point in the multi point feature.
         _(json.coordinates).each(function (coords) {
@@ -158,7 +155,7 @@ var GeoJSON = (function () {
         });
 
         return markers;
-    }
+    };
 
     /**
      * Create a polyline google map object from the geojson lineString
@@ -191,13 +188,13 @@ var GeoJSON = (function () {
 
         // Set the geojson properties and type
         line.properties = properties;
-        line.properties.type = "LineString";
+        line.properties.type = properties.type ? properties.type : "LineString";
 
         // Cache the bounds for re-use later by the map.
         line.properties.bounds = bounds;
 
         return line;
-    }
+    };
 
     /**
      * Create an array of polyline google map objects from the
@@ -211,17 +208,14 @@ var GeoJSON = (function () {
      */
     GeoJSON.prototype.multiLineString = function (json, options, properties) {
         var lines = [], path;
-        options = _(options).clone();
-        properties = _(properties).clone();
-
         var that = this;
         // Create each line within the multi line string.
         _(json.coordinates).each(function (line) {
             lines.push(that.lineString(line, options, properties));
-        })
+        });
 
         return lines;
-    }
+    };
 
     /**
      * The algorithm below determines whether the points go clockwise
@@ -241,7 +235,7 @@ var GeoJSON = (function () {
         area /= 2;
         var clockwise = area > 0;
         return clockwise;
-    }
+    };
 
     /**
      * Create a polygon google map object from the Polygon geojson object
@@ -255,7 +249,7 @@ var GeoJSON = (function () {
     GeoJSON.prototype.polygon = function (json, options, properties) {
         var paths = [], path, path_length;
         var polygon;
-        var outside, inside;
+        var outsideDirection, insideDirection;
         options = _(options).clone();
         properties = _(properties).clone();
         var bounds = new google.maps.LatLngBounds();
@@ -275,13 +269,13 @@ var GeoJSON = (function () {
             // This is needed for internal polygons to shade them correctly.
             path_length = paths.length;
             if (path_length === 0) {
-                outside = that._clockwise(path);
+                outsideDirection = that._clockwise(path);
                 paths.push(path);
             } else {
                 if (path_length === 1) {
-                    inside = that._clockwise(path);
+                    insideDirection = that._clockwise(path);
                 }
-                paths[path_length] = (inside === outside) ? path.reverse() : path;
+                paths[path_length] = (insideDirection === outsideDirection) ? path.reverse() : path;
             }
         });
 
@@ -289,11 +283,11 @@ var GeoJSON = (function () {
         polygon = new google.maps.Polygon(options);
 
         polygon.properties = properties;
-        polygon.properties.type = "Polygon";
+        polygon.properties.type = properties.type ? properties.type : "Polygon";
         polygon.properties.bounds = bounds;
 
         return polygon;
-    }
+    };
 
     /**
      * Create an array of Polygon google map objects from the MultiPolygon
@@ -307,9 +301,6 @@ var GeoJSON = (function () {
      */
     GeoJSON.prototype.multiPolygon = function (json, options, properties) {
         var polygons = [], polygon;
-        options = _(options).clone();
-        properties = _(properties).clone();
-
         var that = this;
         // Iterate through each polygon and create the object.
         _(json.coordinates).each(function (polygon) {
@@ -317,7 +308,7 @@ var GeoJSON = (function () {
         });
 
         return polygons;
-    }
+    };
 
     return GeoJSON;
 }());
